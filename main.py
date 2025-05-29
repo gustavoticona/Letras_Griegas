@@ -145,7 +145,7 @@ def upload():
 
 @app.route('/prepare', methods=['GET'])
 def prepare_dataset():
-    letras = ['alpha']
+    letras = ["alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta", "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho", "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"]
     images = []
     labels = []
     for letra in letras:
