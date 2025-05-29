@@ -11,27 +11,25 @@ app = Flask(__name__)
 main_html = """
 <html>
 <head></head>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 <script>
   var mousePressed = false;
   var lastX, lastY;
   var ctx;
 
-  function getRndInteger(min, max) {
+   function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
-  }
+   }
 
   function InitThis() {
       ctx = document.getElementById('myCanvas').getContext("2d");
 
-      let letras = [
+      var letras = [
         "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta",
         "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho",
         "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"
       ];
-
-      let random = Math.floor(Math.random() * letras.length);
-      let aleatorio = letras[random];
+      var random = Math.floor(Math.random() * letras.length);
+      var aleatorio = letras[random];
 
       document.getElementById('mensaje').innerHTML  = 'Dibujando un ' + aleatorio;
       document.getElementById('numero').value = aleatorio;
@@ -50,7 +48,6 @@ main_html = """
       $('#myCanvas').mouseup(function (e) {
           mousePressed = false;
       });
-
       $('#myCanvas').mouseleave(function (e) {
           mousePressed = false;
       });
@@ -79,16 +76,17 @@ main_html = """
      var canvas = document.getElementById('myCanvas');
      document.getElementById('myImage').value = canvas.toDataURL();
   }
+
 </script>
 <body onload="InitThis();">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <div align="left">
       <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Uni-logo_transparente_granate.png" width="300"/>
     </div>
     <div align="center">
         <h1 id="mensaje">Dibujando...</h1>
         <canvas id="myCanvas" width="200" height="200" style="border:2px solid black"></canvas>
-        <br/>
-        <br/>
+        <br/><br/>
         <button onclick="javascript:clearArea();return false;">Borrar</button>
     </div>
     <div align="center">
@@ -104,51 +102,45 @@ main_html = """
 
 @app.route("/")
 def main():
-    return main_html
+    return(main_html)
 
 @app.route('/upload', methods=['POST'])
 def upload():
     try:
         img_data = request.form.get('myImage').replace("data:image/png;base64,","")
         aleatorio = request.form.get('numero')
-        print(f"Leyendo imagen para clase: {aleatorio}")
-        if not os.path.exists(str(aleatorio)):
-            os.mkdir(str(aleatorio))
         with tempfile.NamedTemporaryFile(delete=False, mode="w+b", suffix='.png', dir=str(aleatorio)) as fh:
             fh.write(base64.b64decode(img_data))
-        print("Imagen subida correctamente")
+        print("Image uploaded for:", aleatorio)
     except Exception as err:
-        print("Error al subir la imagen")
+        print("Error occurred")
         print(err)
+
     return redirect("/", code=302)
 
 @app.route('/prepare', methods=['GET'])
 def prepare_dataset():
     images = []
-    labels = []
     letras = [
         "alpha", "beta", "gamma", "delta", "epsilon", "zeta", "eta", "theta",
         "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho",
         "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"
     ]
+    digits = []
     for letra in letras:
-        filelist = glob.glob(f'{letra}/*.png')
+        filelist = glob.glob('{}/*.png'.format(letra))
         if len(filelist) == 0:
-            print(f"No se encontraron imágenes para la clase {letra}")
             continue
         images_read = io.concatenate_images(io.imread_collection(filelist))
         images_read = images_read[:, :, :, 3]
-        labels_for_class = np.array([letra] * images_read.shape[0])
+        digits_read = np.array([letra] * images_read.shape[0])
         images.append(images_read)
-        labels.append(labels_for_class)
-    if images:
-        images = np.vstack(images)
-        labels = np.concatenate(labels)
-        np.save('X.npy', images)
-        np.save('y.npy', labels)
-        return "Dataset preparado OK!"
-    else:
-        return "No hay imágenes para preparar dataset."
+        digits.append(digits_read)
+    images = np.vstack(images)
+    digits = np.concatenate(digits)
+    np.save('X.npy', images)
+    np.save('y.npy', digits)
+    return "OK!"
 
 @app.route('/X.npy', methods=['GET'])
 def download_X():
@@ -164,7 +156,7 @@ if __name__ == "__main__":
         "iota", "kappa", "lambda", "mu", "nu", "xi", "omicron", "pi", "rho",
         "sigma", "tau", "upsilon", "phi", "chi", "psi", "omega"
     ]
-    for letra in letras:
-        if not os.path.exists(str(letra)):
-            os.mkdir(str(letra))
+    for d in letras:
+        if not os.path.exists(str(d)):
+            os.mkdir(str(d))
     app.run()
