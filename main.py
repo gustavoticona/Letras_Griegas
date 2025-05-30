@@ -85,7 +85,7 @@ main_html = """
     </div>
     <div align="center" style="margin-top: 10px;">
       <p>Referencia del alfabeto griego:</p>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Greek_alphabet.svg/1200px-Greek_alphabet.svg.png" width="600" />
+    <img src="https://www.shutterstock.com/image-vector/greek-alphabet-letters-education-science-600nw-2444755451.jpg" width="600" />
     </div>
     <div align="center">
         <h1 id="mensaje">Dibujando...</h1>
