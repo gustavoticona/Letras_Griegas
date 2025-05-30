@@ -81,11 +81,11 @@ main_html = """
 <body onload="InitThis();">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <div align="left">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Uni-logo_transparente_granate.png" width="300"/>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Uni-logo_transparente_granate.png" width="200"/>
     </div>
     <div align="center" style="margin-top: 10px;">
       <p>Referencia del alfabeto griego:</p>
-    <img src="https://www.shutterstock.com/image-vector/greek-alphabet-letters-education-science-600nw-2444755451.jpg" width="600" />
+    <img src="https://www.shutterstock.com/image-vector/greek-alphabet-letters-education-science-600nw-2444755451.jpg" width="500" />
     </div>
     <div align="center">
         <h1 id="mensaje">Dibujando...</h1>
