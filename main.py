@@ -83,6 +83,10 @@ main_html = """
     <div align="left">
       <img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Uni-logo_transparente_granate.png" width="300"/>
     </div>
+    <div align="center" style="margin-top: 10px;">
+      <p>Referencia del alfabeto griego:</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Greek_alphabet.svg/1200px-Greek_alphabet.svg.png" width="600" />
+    </div>
     <div align="center">
         <h1 id="mensaje">Dibujando...</h1>
         <canvas id="myCanvas" width="200" height="200" style="border:2px solid black"></canvas>
